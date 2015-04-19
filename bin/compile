@@ -5,7 +5,7 @@ set -o pipefail   # don't ignore exit codes when piping output
 # set -x          # enable debugging
 
 # Configure directories
-build_dir=$1
+build_dir="$1/client"
 cache_dir=$2
 env_dir=$3
 
@@ -66,7 +66,7 @@ else
   curl http://www.nasm.us/pub/nasm/releasebuilds/$NVERSION/nasm-$NVERSION.tar.gz -s | tar xz
   cd nasm-$NVERSION
   ./configure >/dev/null 2>&1 && make >/dev/null 2>&1
-  
+
   mkdir -p $vendor_dir/nasm/bin
   mv nasm $vendor_dir/nasm/bin
   chmod +x $vendor_dir/nasm/bin/*
@@ -91,7 +91,7 @@ elif [ -d $cache_dir/node/node_modules ]; then
 
   status "Pruning cached dependencies not specified in package.json"
   npm prune 2>&1 | indent
-  
+
   #prune will delete the bower / gulp modules, this adds it back
   if [ -d $cache_dir/node/node_modules/bower ]; then
     status "Copying bower from cache"
@@ -124,7 +124,7 @@ if [ -f $build_dir/bower.json ]; then
   bower_dir=${bower_dir:=bower_components}
 
   status "Found bower.json - Updating bower locally"
-  
+
   if [ -e node_modules/.bin/bower ]; then
     npm update bower 2>&1 | indent
   else
@@ -213,7 +213,7 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
     else
       npm install gulp 2>&1 | indent
     fi
-    
+
     if [ -n "$GULP_TASK" ]; then
       status "Found gulpfile, running gulp $GULP_TASK task"
       $build_dir/node_modules/.bin/gulp $GULP_TASK
