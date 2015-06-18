@@ -201,7 +201,8 @@ echo "export PATH=\"\$HOME/vendor/node/bin:\$HOME/bin:\$HOME/node_modules/.bin:\
       $build_dir/node_modules/.bin/gulp --env prod
     fi
   else
-    status "No gulpfile found" fi
+    status "No gulpfile found" 
+  fi
 )
 
 # Purge node-related cached content, being careful not to purge the top-level
