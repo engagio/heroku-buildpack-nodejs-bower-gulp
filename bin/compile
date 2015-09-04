@@ -88,8 +88,9 @@ if [ -d $build_dir/node_modules ]; then
   status "Rebuilding any native dependencies"
   npm rebuild 2>&1 | indent
 elif [ -d $cache_dir/node/node_modules ]; then
-  status "Restoring node_modules directory from cache"
-  cp -r $cache_dir/node/node_modules $build_dir/
+  status "Deleting node_modules directory from cache"
+  rm -r $cache_dir/node/node_modules
+  #cp -r $cache_dir/node/node_modules $build_dir/
 
   status "Pruning cached dependencies not specified in package.json"
   npm prune 2>&1 | indent
